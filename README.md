@@ -1,6 +1,6 @@
 # Day Planner
 
-This project looks up a day, determines the hour slots, captures input into specific hours and stores them.  The memory is persistent allowing inputs to be saved and deleted.
+This project looks up a day, determines the hour slots, captures input into specific hours and stores them. A button event listener is created to react to button presses.  IDs are used to isolate which button is pressed  The memory is persistent allowing inputs to be saved and deleted.
 
 ## Getting Started
 
@@ -14,8 +14,7 @@ You should be running chrome version 78 or above and windows 10.
 
 Ensure you have chrome and operating system running as expected.  Load the files and the system you run.
 
-
 ## Author
 
 * **Robert V. Moel** 
-* **Last update: January 29, 2020**
+* **Last update: February 1, 2020**
