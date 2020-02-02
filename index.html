@@ -39,7 +39,6 @@ body {
     resize: none;
     color: #000000;
     border-left: 1px solid black;
-    padding: 10px;
   }
   
   .jumbotron {
@@ -60,8 +59,8 @@ body {
   }
   
   .row {
-    white-space: pre-wrap;
-    height: 80px;
+    white-space: normal;
+    height: 70px;
     border-top: 1px solid white;
   }
   
@@ -70,8 +69,7 @@ body {
     color: #191919;
     border-top: 1px dashed #191919;
     text-align: right;
-    padding: 5px;
-  }
+   }
 
   .agenda {
     border: none;
@@ -84,8 +82,9 @@ body {
   
   .agenda-text {
     background-color: #aca1a1;
-    color: white;
+    color:black;
     border-top: 1px solid white;
+    margin:0;
   }
   .past {
     background-color: #d3d3d3;
@@ -124,6 +123,7 @@ body {
     overflow: hidden;
     padding: 2px;
   }
+
     </style>
 
     <title>Work Day Scheduler</title>
@@ -136,88 +136,104 @@ body {
       <p id="currentDay" class="lead"></p>
     </header>
     <div id="hours" class="container">
-
-    </div>
-
       <!-- Timeblocks go here -->
+    </div>
+    <br>
+      
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
     <script type = "text/javascript">
-        // Sets current date and current time
-        //var m = moment();
-        m = moment('10AM', 'h:mm a');
-        console.log(m);
-        var currentDayDisplay = m.format("dddd, MMMM, Do YYYY");
-        $("#currentDay").text(currentDayDisplay);
-        var nowHr = m.hours();
-        console.log("nowHr");
-        console.log(nowHr);
-        var dow = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-        var wrkHrs = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"]
-        // Empty array to store values entered in textarea input by user
-        var initItems = {slot_0:"Empty", slot_1:"", slot_2:"", slot_3:"", slot_4:"", slot_5:"", slot_6:"", slot_7:"", slot_8:"" };
+      // Sets current date and current time
+      //var m = moment();
+      m = moment('10AM', 'h:mm a');
+      console.log(m);
+      var currentDayDisplay = m.format("dddd, MMMM, Do YYYY");
+      $("#currentDay").text(currentDayDisplay);
+      var nowHr = m.hours();
+      var wrkHrs = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"]
+      // Empty array to store values entered in textarea input by user
+      var initItems = {slot_0:"", slot_1:"", slot_2:"", slot_3:"", slot_4:"", slot_5:"", slot_6:"", slot_7:"", slot_8:"" };
 
-        //Check if storage object exists, if not initialize with blank otherwise retrieve
+      //Check if storage object exists, if not initialize with blank otherwise retrieve
 
-        // get agendaItem
-        var storedItems  =  JSON.parse(localStorage.getItem("agendaItems"));
-        if(storedItems === null){
-          storedItems = initItems;
-          localStorage.setItem("agendaItems", JSON.stringify(storedItems));
-        } else {
-          storedItems = JSON.parse(localStorage.getItem("agendaItems"));
-        }
+      // get agendaItem
+      var storedItems  =  JSON.parse(localStorage.getItem("agendaItems"));
+      if(storedItems === null){
+        storedItems = initItems;
+        localStorage.setItem("agendaItems", JSON.stringify(storedItems));
+      } else {
+        storedItems = JSON.parse(localStorage.getItem("agendaItems"));
+      }
 
-        // render agenda
-        function rndrAgnda() {
+      // render agenda
+      function rndrAgnda() {
+        $("<#hours>").empty;  // clear the old agenda of items
         for(i=0; i<wrkHrs.length; i++){
-        var baseHTML = `
-        <div class="time-block">
-          <div class="row">
-              <div class="col-2 hour" id="slot_`+ i +`">
-                  <p class="display-time">`+ wrkHrs[i] +`</p>
+          var baseHTML = `
+          <div class="time-block">
+            <div class="row">
+              <div class="col-sm-2 hour">
+                <p class="display-time" id="slot_`+ i +`">`+ wrkHrs[i] +`</p>
               </div>
-              <div class="col-9 agenda-text">
-                  <textarea id="txt_`+ i +`" class="agenda"></textarea>
+              <div class="col-sm-9 agenda-text">
+                <textarea style="color:black" rows="3" id="txt_`+ i +`" class="agenda"></textarea>
               </div>
-              <div class="col-1 saveBtn">
-                  <button type="button" id = "btn_`+ i +`" class="btn saveIcon"><i class="far fa-save"></i></button>
+              <div class="col-sm-1 saveBtn">
+                <button type="button" id = "btn_`+ i +`" class="btn saveIcon">
+                  <i class="far fa-save"></i>
+                </button>
               </div>
-          </div>
-        </div>
-        `
-        $("#hours").append(baseHTML);
-    }
-    for(i=0; i<wrkHrs.length; i++){
-    $("#txt_"+i).text(storedItems["slot_"+i]);
-    }
-
+            </div> <!--End of row-->
+          </div> <!--End of time-block-->
+          `
+          $("#hours").append(baseHTML);
+        }
+        for(i=0; i<wrkHrs.length; i++){
+          $("#txt_"+i).text(storedItems["slot_"+i]);
+        }
   }
 
-function initAgnda() {
-    $(".time-block").each(function (index, element){
-      console.log($(this).contents());
-
-    slotHr = moment($(this).contents($("p")), 'h:mm a').hours();
+  function initAgnda() {
+    $(".time-block").each(function (i, element){
+    slotHr = moment($(this).find("#slot_"+ i).text(), 'h:mm a').hours();
+    console.log(slotHr);
 
       if(slotHr < nowHr){
-        $(this).addClass("past");
-        $(this).removeClass("present", "future");
+        $(this).find("#txt_" + i).addClass("past");
+        $(this).find("#txt_" + i).removeClass("present", "future");
       } else if(slotHr > nowHr) {
-        $(this).addClass("future");
-        $(this).removeClass("present", "past");
+        $(this).find("#txt_" + i).addClass("future");
+        $(this).find("#txt_" + i).removeClass("present", "past");
       } else {
-        $(this).addClass("present");
-        $(this).removeClass("past", "future");
+        $(this).find("#txt_" + i).addClass("present");
+        $(this).find("#txt_" + i).removeClass("past", "future");
       }
 
     })}
-  
-  
-    rndrAgnda();
-    initAgnda();
+
+
+  rndrAgnda();
+  initAgnda();
+
+  // button listen, update object, save object and re render agenda
+  $(".btn").on("click", function(e){
+    e.defaultPrevented;
+    var whcBtn = $(this).attr("id");
+    indx = whcBtn.split("_")[1];
+    console.log(indx);
+    whcTxt = "#txt_"+indx;
+    whcKey = "slot_"+indx;
+    console.log(whcKey)
+    inTxt = $.trim($(whcTxt).val());
+    if(inTxt !== ""){
+    storedItems[whcKey] = inTxt;
+    console.log(storedItems);
+    }
+    //update memory
+    localStorage.setItem("agendaItems", JSON.stringify(storedItems));
+  })
 
 
     </script>
