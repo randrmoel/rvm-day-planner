@@ -1,19 +1,23 @@
 // Sets current date and current time
 var m = moment();
+var nowDate = m.format("MM/DD/YYYY");
 //m = moment('10AM', 'h:mm a'); //test to see if colors work
+//nowDate = moment("02/03/2020", "MM/DD/YYYY"); //test to see if new date works
+console.log(nowDate);
 
 var currentDayDisplay = m.format("dddd, MMMM, Do YYYY");
 $("#currentDay").text(currentDayDisplay);
 var nowHr = m.hours();
 var wrkHrs = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"]
 // Empty array to store values entered in textarea input by user
-var initItems = {agndDate : m , agndItms:{slot_0:"", slot_1:"", slot_2:"", slot_3:"", slot_4:"", slot_5:"", slot_6:"", slot_7:"", slot_8:"" }};
+var initItems = {agndDate : nowDate , agndItms:{slot_0:"", slot_1:"", slot_2:"", slot_3:"", slot_4:"", slot_5:"", slot_6:"", slot_7:"", slot_8:"" }};
 
 //Check if storage object exists for today, if not initialize with blank otherwise retrieve
 
 // get agendaItem
 var storedItems  =  JSON.parse(localStorage.getItem("agendaItems"));
-if(storedItems === null || storedItems.agndDate !==m){
+console.log(nowDate);
+if(storedItems === null || storedItems.agndDate !==nowDate){
   storedItems = initItems;
   localStorage.setItem("agendaItems", JSON.stringify(storedItems));
 } else {
@@ -44,7 +48,7 @@ function rndrAgnda() {
     $("#hours").append(baseHTML);
   }
   for(i=0; i<wrkHrs.length; i++){ //initialize agenda
-    $("#txt_"+i).text(storedItems["slot_"+i]);
+    $("#txt_"+i).text(storedItems.agndItms["slot_"+i]);
   }
 }
 
