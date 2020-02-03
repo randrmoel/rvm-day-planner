@@ -1,4 +1,5 @@
 // Sets current date and current time
+// Present Red, Past whit, Future Green.  You can see with test code
 var m = moment();
 var nowDate = m.format("MM/DD/YYYY");
 //m = moment('10AM', 'h:mm a'); //test to see if colors work
