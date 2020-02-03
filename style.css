@@ -17,6 +17,8 @@ textarea{
   resize: none;
   color: #000000;
   border-left: 1px solid black;
+  padding:0;
+  width:100%;
 }
 
 .jumbotron {
@@ -38,8 +40,9 @@ textarea{
 
 .row {
   white-space: normal;
-  height: 70px;
-  border-top: 1px solid white;
+  margin:0;
+  border:0;
+  
 }
 
 .hour {
@@ -61,8 +64,8 @@ textarea{
 .agenda-text {
   background-color: #aca1a1;
   color:black;
-  border-top: 1px solid white;
   margin:0;
+  border:0;
 }
 .past {
   background-color: #d3d3d3;
@@ -74,6 +77,11 @@ textarea{
   background-color: #e46962;
   color: white;
   border-top: 1px dashed white;
+}
+
+.col-sm-9{
+  padding:0;
+  margin:0;
 }
 
 .future {

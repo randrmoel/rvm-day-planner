@@ -2,7 +2,7 @@
 var m = moment();
 var nowDate = m.format("MM/DD/YYYY");
 //m = moment('10AM', 'h:mm a'); //test to see if colors work
-//nowDate = moment("02/03/2020", "MM/DD/YYYY"); //test to see if new date works
+//nowDate = moment("02/04/2020", "MM/DD/YYYY"); //test to see if new date works
 console.log(nowDate);
 
 var currentDayDisplay = m.format("dddd, MMMM, Do YYYY");
